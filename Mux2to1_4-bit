@@ -1,0 +1,13 @@
+`timescale 1ns / 1ps
+
+module mux2to1_4bit(
+    input  [3:0] A,
+    input  [3:0] B,
+    input        Sel,
+    output [3:0] Y
+);
+
+assign Y = Sel ? B : A;
+
+endmodule
+
