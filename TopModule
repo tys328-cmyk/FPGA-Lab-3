@@ -1,0 +1,47 @@
+module top(
+    input  [9:0] sw,
+    output [6:0] seg,
+    output [3:0] an,
+    output       led
+);
+
+wire [3:0] A;
+wire [3:0] B;
+wire       Cin;
+wire       Sel;
+
+wire [3:0] Sum;
+wire       Cout;
+
+wire [3:0] display_value;
+
+assign A   = sw[3:0];
+assign B   = sw[7:4];
+assign Cin = sw[8];
+assign Sel = sw[9];
+
+full_adder_4bit ADDER (
+    .A(A),
+    .B(B),
+    .Cin(Cin),
+    .Sum(Sum),
+    .Cout(Cout)
+);
+
+mux2to1_4bit MUX (
+    .A(A),
+    .B(Sum),
+    .Sel(Sel),
+    .Y(display_value)
+);
+
+bcd_to_7seg DECODER (
+    .bcd(display_value),
+    .seg(seg)
+);
+
+assign an = 4'b1110;
+assign led = Cout;
+
+endmodule
+
